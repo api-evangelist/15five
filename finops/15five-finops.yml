@@ -1,0 +1,105 @@
+specification: FinOps Framework 1.0
+provider: 15Five
+created: '2026-06-12'
+modified: '2026-06-12'
+billingModel: subscription
+description: >
+  15Five uses a per-user per-month subscription billing model billed annually.
+  Costs scale linearly with headcount across three core tiers (Engage, Perform,
+  Total Platform) plus optional add-on products for specialized capabilities.
+focusColumns:
+  BilledCost: true
+  ListUnitPrice: true
+  UsageQuantity: true
+  UsageUnit: user/month
+  BillingCurrency: USD
+  BillingPeriod: annual
+  ChargeCategory: Usage
+  ServiceCategory: HR Software / Performance Management
+  ServiceName: 15Five Platform
+meters:
+  - name: Engage Users
+    unit: user/month
+    listPrice: 4.00
+    currency: USD
+    billingCycle: annual
+    description: Per-user charge for the Engage plan (billed annually)
+
+  - name: Perform Users
+    unit: user/month
+    listPrice: 11.00
+    currency: USD
+    billingCycle: annual
+    description: Per-user charge for the Perform plan (billed annually)
+
+  - name: Total Platform Users
+    unit: user/month
+    listPrice: 16.00
+    currency: USD
+    billingCycle: annual
+    description: Per-user charge for the Total Platform plan (billed annually)
+
+  - name: Kona Meeting Assistant Users
+    unit: employee/month
+    listPrice: 2.00
+    currency: USD
+    billingCycle: annual
+    description: Per-employee add-on charge for the Kona Meeting Assistant
+
+  - name: Kona Coach Managers
+    unit: manager/month
+    listPrice: 19.00
+    currency: USD
+    billingCycle: annual
+    description: Per-manager add-on charge for Kona AI coaching
+
+  - name: Manager Content
+    unit: manager/month
+    listPrice: 49.00
+    currency: USD
+    billingCycle: annual
+    description: Per-manager add-on charge for manager training content tracks
+
+  - name: Coaching Credits
+    unit: credit
+    listPrice: 399.00
+    currency: USD
+    description: >
+      Per-credit charge for live manager coaching sessions.
+      One credit equals one 1:1 session; five credits equal one group session.
+
+  - name: Compensation Base
+    unit: user/month
+    listPrice: 9.00
+    currency: USD
+    billingCycle: annual
+    description: Per-user charge for the Compensation Base Package add-on
+
+  - name: Compensation + Benchmarking
+    unit: user/month
+    listPrice: 11.00
+    currency: USD
+    billingCycle: annual
+    description: Per-user charge for Compensation with Salary Benchmarking add-on
+
+principles:
+  Visibility:
+    description: >
+      Costs are directly tied to active user count per plan tier. Finance and
+      HR ops teams can forecast spend by multiplying headcount by the applicable
+      per-user rate. Add-on products layer additional costs on top of the base plan.
+    recommendations:
+      - Tag users by department to allocate costs across business units
+      - Track manager-to-employee ratios to right-size manager add-on spend
+      - Review coaching credit consumption monthly to avoid unused credit waste
+
+  Optimization:
+    description: >
+      Organizations can reduce costs by aligning plan tier selection to actual
+      feature utilization. Teams that need only engagement surveys can stay on
+      the lower-cost Engage tier rather than paying for Perform or Total Platform.
+    recommendations:
+      - Audit active users regularly and remove inactive accounts to reduce per-seat cost
+      - Evaluate whether Kona add-ons deliver ROI relative to base plan coaching tools
+      - Negotiate annual commitments at contract renewal to lock in current per-user rates
+      - Consolidate coaching credits into group sessions (5 credits) vs. 1:1 sessions where possible

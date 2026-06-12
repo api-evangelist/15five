@@ -1,0 +1,33 @@
+specification: API Commons Rate Limits 0.1
+provider: 15Five
+providerId: 15five
+created: '2026-06-12'
+modified: '2026-06-12'
+retryAfter:
+  header: Retry-After
+  description: Returned when rate limit is exceeded to indicate when to retry
+throttled:
+  httpStatusCode: 429
+  description: >
+    Requests exceeding the rate limit are dropped. Exceeding the threshold does
+    not result in API key suspension. Rate limits are enforced per server per
+    IP address (not per account).
+limits:
+  - scope: global
+    metric: requests
+    limit: 5
+    timeFrame: second
+    description: >
+      All API requests are limited to 5 per second per IP address. This is an
+      IP-based limit, not account-based. More granular per-account rate limiting
+      is planned for a future release.
+notes:
+  - >
+    Rate limits are enforced per server per IP address. Exceeding the rate limit
+    causes subsequent API calls to be dropped silently (no key suspension).
+  - >
+    All API requests must be made over HTTPS. Calls over plain HTTP will fail
+    with a 301 redirect response.
+  - >
+    Bulk list fetches return paginated results with count, next, previous,
+    and results fields in the response body.

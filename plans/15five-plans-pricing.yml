@@ -1,0 +1,151 @@
+specification: API Commons Plans 0.1
+provider: 15Five
+providerId: 15five
+created: '2026-06-12'
+modified: '2026-06-12'
+reconciled: true
+plans:
+  - name: Engage
+    type: paid
+    description: >
+      Employee engagement surveys, targeted assessments, action planning,
+      heat maps, and benchmarking for organizations focused on engagement metrics.
+    price:
+      amount: 4.00
+      currency: USD
+      per: user/month
+      billingCycle: annual
+    quotas: []
+    features:
+      - type: boolean
+        name: Employee Engagement Surveys
+        value: true
+      - type: boolean
+        name: Targeted Assessments
+        value: true
+      - type: boolean
+        name: Action Planning
+        value: true
+      - type: boolean
+        name: Heat Maps
+        value: true
+      - type: boolean
+        name: Benchmarking
+        value: true
+      - type: boolean
+        name: API Access
+        value: false
+
+  - name: Perform
+    type: paid
+    description: >
+      Most popular plan. Full-featured performance management including AMAYA AI,
+      Insights Dashboard, AI-assisted reviews, 15Five Agents, OKRs, 360 feedback,
+      talent matrix, and career paths.
+    price:
+      amount: 11.00
+      currency: USD
+      per: user/month
+      billingCycle: annual
+    quotas: []
+    features:
+      - type: boolean
+        name: AMAYA AI Assistant
+        value: true
+      - type: boolean
+        name: Insights Dashboard
+        value: true
+      - type: boolean
+        name: AI-Assisted Reviews
+        value: true
+      - type: boolean
+        name: 15Five Agents
+        value: true
+      - type: boolean
+        name: OKR Tracking
+        value: true
+      - type: boolean
+        name: 360 Degree Feedback
+        value: true
+      - type: boolean
+        name: Talent Matrix
+        value: true
+      - type: boolean
+        name: Career Paths
+        value: true
+      - type: boolean
+        name: API Access
+        value: true
+
+  - name: Total Platform
+    type: paid
+    description: >
+      Combines everything in Engage and Perform plus manager training microlearnings
+      for a complete performance and engagement solution.
+    price:
+      amount: 16.00
+      currency: USD
+      per: user/month
+      billingCycle: annual
+    quotas: []
+    features:
+      - type: boolean
+        name: All Engage Features
+        value: true
+      - type: boolean
+        name: All Perform Features
+        value: true
+      - type: boolean
+        name: Manager Training Microlearnings
+        value: true
+      - type: boolean
+        name: API Access
+        value: true
+
+addons:
+  - name: Kona Meeting Assistant
+    description: AI meeting assistant for managers
+    price:
+      amount: 2.00
+      currency: USD
+      per: employee/month
+      billingCycle: annual
+
+  - name: Kona Coach
+    description: AI coaching for managers, available as add-on to Perform or Total Platform
+    price:
+      amount: 19.00
+      currency: USD
+      per: manager/month
+      billingCycle: annual
+
+  - name: Manager Coaching
+    description: One-on-one and group coaching sessions. 1 credit equals one 1:1 session; 5 credits equal one group session.
+    price:
+      amount: 399.00
+      currency: USD
+      per: credit
+
+  - name: Manager Content
+    description: Training tracks and microlearnings for managers, available as add-on to all packages
+    price:
+      amount: 49.00
+      currency: USD
+      per: manager/month
+      billingCycle: annual
+
+  - name: Compensation Base Package
+    description: Compensation management capabilities
+    price:
+      amount: 9.00
+      currency: USD
+      per: user/month
+      billingCycle: annual
+
+  - name: Compensation + Salary Benchmarking
+    description: Full compensation management with salary benchmarking data
+    price:
+      amount: 11.00
+      currency: USD
+      per: user/month
+      billingCycle: annual

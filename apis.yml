@@ -1,0 +1,76 @@
+aid: 15five
+name: 15Five
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/15five/refs/heads/main/apis.yml
+created: '2026-06-12'
+modified: '2026-06-12'
+specificationVersion: '0.19'
+description: >
+  15Five is a continuous performance management platform that enables organizations
+  to manage employee check-ins, OKRs, 1-on-1 meetings, pulse surveys, and manager
+  effectiveness data. The platform provides a REST API that allows IT admins and
+  developers to read and modify 15Five account data via custom-built integrations.
+  Authentication is handled via API keys using HTTP Basic Auth, and requests are
+  rate-limited to 5 per second per IP address. The API supports reading user and
+  organizational data, objectives, review cycles, and group management, and is
+  available to customers on applicable subscription plans.
+tags:
+  - Performance Management
+  - Employee Engagement
+  - OKRs
+  - Check-ins
+  - HR
+  - Human Resources
+  - 1-on-1 Meetings
+  - Pulse Surveys
+apis:
+  - name: 15Five Public API
+    description: >
+      RESTful API for reading and modifying 15Five account data, including users,
+      groups, objectives (OKRs), check-ins, review cycles, and performance data.
+      Supports bulk list fetches with pagination and uses API key authentication
+      via HTTP Basic Auth.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://my.15five.com/api/public/
+    baseURL: https://my.15five.com/api/public/
+    tags:
+      - Performance Management
+      - OKRs
+      - Check-ins
+      - Users
+      - Groups
+      - Reviews
+    properties:
+      - type: Documentation
+        url: https://my.15five.com/api/public/
+      - type: HelpArticle
+        url: https://success.15five.com/hc/en-us/articles/50988142563483-15Five-Public-API-Supported-Features-Limits-and-Access-Rules
+common:
+  - type: Website
+    url: https://www.15five.com/
+  - type: Documentation
+    url: https://my.15five.com/api/public/
+  - type: HelpCenter
+    url: https://success.15five.com/hc/en-us/articles/360002699631-API
+  - type: GitHubOrganization
+    url: https://github.com/15five
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/15five
+  - type: X
+    url: https://x.com/15Five
+  - type: Blog
+    url: https://www.15five.com/blog
+  - type: Pricing
+    url: https://www.15five.com/pricing
+  - type: StatusPage
+    url: https://status.15five.com/
+  - type: Plans
+    url: plans/15five-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/15five-rate-limits.yml
+  - type: FinOps
+    url: finops/15five-finops.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
