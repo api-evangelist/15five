@@ -1,0 +1,72 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "15five": "https://my.15five.com/api/public/#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "CheckIn": "15five:CheckIn",
+    "HighFive": "15five:HighFive",
+    "Objective": "15five:Objective",
+    "KeyResult": "15five:KeyResult",
+    "User": "15five:User",
+    "Group": "15five:Group",
+    "ReviewCycle": "15five:ReviewCycle",
+    "Review": "15five:Review",
+    "PulseSurvey": "15five:PulseSurvey",
+    "OneOnOne": "15five:OneOnOne",
+
+    "employeeId": {
+      "@id": "15five:employeeId",
+      "@type": "xsd:string"
+    },
+    "isActive": {
+      "@id": "15five:isActive",
+      "@type": "xsd:boolean"
+    },
+    "reviewerEmail": {
+      "@id": "15five:reviewerEmail",
+      "@type": "xsd:string"
+    },
+    "groupType": {
+      "@id": "15five:groupType",
+      "@type": "xsd:string"
+    },
+    "cycleAdministrator": {
+      "@id": "15five:cycleAdministrator",
+      "@type": "xsd:string"
+    },
+
+    "apiKey": {
+      "@id": "15five:apiKey",
+      "@type": "xsd:string"
+    },
+    "rateLimit": {
+      "@id": "15five:rateLimit",
+      "@type": "xsd:integer"
+    },
+
+    "Organization": "schema:Organization",
+    "SoftwareApplication": "schema:SoftwareApplication",
+    "Person": "schema:Person",
+    "name": "schema:name",
+    "description": "schema:description",
+    "email": "schema:email",
+    "url": "schema:url",
+    "identifier": "schema:identifier"
+  },
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://my.15five.com/api/public/",
+      "name": "15Five Public API",
+      "description": "RESTful API for reading and modifying 15Five account data, including users, groups, objectives (OKRs), check-ins, review cycles, and performance data.",
+      "url": "https://my.15five.com/api/public/",
+      "provider": {
+        "@type": "Organization",
+        "@id": "https://www.15five.com/",
+        "name": "15Five",
+        "url": "https://www.15five.com/"
+      }
+    }
+  ]
+}

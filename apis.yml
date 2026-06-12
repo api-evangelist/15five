@@ -71,6 +71,10 @@ common:
     url: rate-limits/15five-rate-limits.yml
   - type: FinOps
     url: finops/15five-finops.yml
+  - type: Blog
+    url: blogs/blogs.json
+  - type: JSONLDContext
+    url: json-ld/15five-context.jsonld
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
