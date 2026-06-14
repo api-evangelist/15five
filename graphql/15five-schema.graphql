@@ -1,0 +1,819 @@
+"""
+15Five GraphQL Schema
+Conceptual schema derived from the 15Five Public REST API.
+Base URL: https://my.15five.com/api/public/
+"""
+
+scalar DateTime
+scalar Date
+scalar JSON
+
+# ─────────────────────────────────────────────
+# Enumerations
+# ─────────────────────────────────────────────
+
+enum GoalStatusValue {
+  ON_TRACK
+  AT_RISK
+  BEHIND
+  COMPLETE
+  ABANDONED
+}
+
+enum GoalTypeValue {
+  INDIVIDUAL
+  TEAM
+  COMPANY
+}
+
+enum ReviewTypeValue {
+  SELF
+  PEER
+  MANAGER
+  UPWARD
+}
+
+enum AgendaItemStatusValue {
+  OPEN
+  COMPLETE
+  SKIPPED
+}
+
+enum WebhookEventType {
+  CHECK_IN_CREATED
+  CHECK_IN_SUBMITTED
+  GOAL_CREATED
+  GOAL_UPDATED
+  REVIEW_SUBMITTED
+  PULSE_SUBMITTED
+  RECOGNITION_GIVEN
+  USER_CREATED
+  USER_DEACTIVATED
+}
+
+# ─────────────────────────────────────────────
+# Identity and Access
+# ─────────────────────────────────────────────
+
+"""A 15Five platform user (employee or manager)."""
+type User {
+  id: ID!
+  email: String!
+  firstName: String!
+  lastName: String!
+  isActive: Boolean!
+  dateJoined: DateTime
+  details: UserDetails
+  role: UserRole
+  manager: Manager
+  directReports: [DirectReport!]
+  teams: [Team!]
+  groups: [Group!]
+  checkIns: [CheckIn!]
+  goals: [Goal!]
+  okrs: [OKR!]
+  oneOnOnes: [OneOnOne!]
+  reviews: [Review!]
+  recognitionsGiven: [Recognition!]
+  recognitionsReceived: [Recognition!]
+}
+
+"""Extended profile attributes for a user."""
+type UserDetails {
+  userId: ID!
+  department: String
+  jobTitle: String
+  location: String
+  startDate: Date
+  bio: String
+  avatarUrl: String
+  timezone: String
+  hireDate: Date
+}
+
+"""A role assigned to a user within the 15Five platform."""
+type UserRole {
+  id: ID!
+  userId: ID!
+  roleName: String!
+  permissions: [String!]
+  assignedAt: DateTime
+}
+
+"""A user designated as a people manager."""
+type Manager {
+  id: ID!
+  user: User!
+  directReportCount: Int!
+  directReports: [DirectReport!]
+  teams: [Team!]
+}
+
+"""A user who reports directly to a manager."""
+type DirectReport {
+  id: ID!
+  user: User!
+  manager: Manager!
+  since: Date
+}
+
+"""An API key used to authenticate with the 15Five API."""
+type APIKey {
+  id: ID!
+  label: String!
+  keyPrefix: String!
+  createdAt: DateTime!
+  lastUsedAt: DateTime
+  isActive: Boolean!
+  createdBy: User
+}
+
+"""An authentication token for API access."""
+type Token {
+  id: ID!
+  token: String!
+  expiresAt: DateTime
+  scopes: [String!]
+  createdAt: DateTime!
+}
+
+# ─────────────────────────────────────────────
+# Teams and Groups
+# ─────────────────────────────────────────────
+
+"""An organizational team within 15Five."""
+type Team {
+  id: ID!
+  name: String!
+  description: String
+  manager: Manager
+  members: [User!]
+  details: TeamDetails
+  createdAt: DateTime
+  modifiedAt: DateTime
+}
+
+"""Extended attributes of a team."""
+type TeamDetails {
+  teamId: ID!
+  memberCount: Int!
+  parentTeam: Team
+  subTeams: [Team!]
+  engagementScore: EngagementScore
+}
+
+"""A logical grouping of users within 15Five."""
+type Group {
+  id: ID!
+  name: String!
+  description: String
+  members: [User!]
+  details: GroupDetails
+  createdAt: DateTime
+  modifiedAt: DateTime
+}
+
+"""Extended attributes of a group."""
+type GroupDetails {
+  groupId: ID!
+  memberCount: Int!
+  isPrivate: Boolean!
+  ownedBy: User
+}
+
+# ─────────────────────────────────────────────
+# Check-Ins
+# ─────────────────────────────────────────────
+
+"""A weekly check-in record submitted by a user."""
+type CheckIn {
+  id: ID!
+  user: User!
+  createdAt: DateTime!
+  submittedAt: DateTime
+  dueDate: Date
+  isComplete: Boolean!
+  details: CheckInDetails
+  responses: [CheckInResponse!]
+}
+
+"""Extended content of a check-in including all response items."""
+type CheckInDetails {
+  checkInId: ID!
+  weekOf: Date!
+  pulse: Int
+  highlights: String
+  challenges: String
+  priorities: String
+  questions: [ResponseItem!]
+}
+
+"""A manager or peer response to a submitted check-in."""
+type CheckInResponse {
+  id: ID!
+  checkIn: CheckIn!
+  respondent: User!
+  comment: String
+  rating: Rating
+  createdAt: DateTime!
+}
+
+"""A general response object for various question types."""
+type Response {
+  id: ID!
+  questionText: String!
+  answerText: String
+  answerValue: JSON
+  respondent: User!
+  createdAt: DateTime!
+}
+
+"""An individual question-and-answer item within a check-in."""
+type ResponseItem {
+  id: ID!
+  questionId: ID!
+  questionText: String!
+  answerText: String
+  answerNumeric: Float
+  isRequired: Boolean!
+}
+
+# ─────────────────────────────────────────────
+# Goals and OKRs
+# ─────────────────────────────────────────────
+
+"""A goal set by a user, team, or the company."""
+type Goal {
+  id: ID!
+  title: String!
+  description: String
+  owner: User!
+  team: Team
+  dueDate: Date
+  status: GoalStatus!
+  type: GoalType!
+  details: GoalDetails
+  progress: [GoalProgress!]
+  createdAt: DateTime!
+  modifiedAt: DateTime
+}
+
+"""Extended details of a goal."""
+type GoalDetails {
+  goalId: ID!
+  startDate: Date
+  completedAt: DateTime
+  parentGoal: Goal
+  subGoals: [Goal!]
+  tags: [String!]
+  visibility: String
+}
+
+"""Current status of a goal."""
+type GoalStatus {
+  id: ID!
+  goal: Goal!
+  value: GoalStatusValue!
+  updatedAt: DateTime!
+  updatedBy: User
+  note: String
+}
+
+"""Classification of a goal."""
+type GoalType {
+  id: ID!
+  value: GoalTypeValue!
+  label: String!
+}
+
+"""A progress update record for a goal."""
+type GoalProgress {
+  id: ID!
+  goal: Goal!
+  percentComplete: Float!
+  note: String
+  recordedAt: DateTime!
+  recordedBy: User!
+}
+
+"""A measurable key result tied to an objective."""
+type KeyResult {
+  id: ID!
+  title: String!
+  description: String
+  targetValue: Float
+  currentValue: Float
+  unit: String
+  okr: OKR!
+  details: KeyResultDetails
+  createdAt: DateTime!
+  modifiedAt: DateTime
+}
+
+"""Extended details of a key result."""
+type KeyResultDetails {
+  keyResultId: ID!
+  startValue: Float
+  completedAt: DateTime
+  owner: User
+  confidenceLevel: String
+}
+
+"""An Objective and Key Results record."""
+type OKR {
+  id: ID!
+  title: String!
+  description: String
+  owner: User!
+  team: Team
+  cycle: OKRCycle!
+  keyResults: [KeyResult!]
+  details: OKRDetails
+  progressPercent: Float
+  createdAt: DateTime!
+  modifiedAt: DateTime
+}
+
+"""Extended details of an OKR."""
+type OKRDetails {
+  okrId: ID!
+  parentOKR: OKR
+  childOKRs: [OKR!]
+  tags: [String!]
+  visibility: String
+  status: GoalStatusValue
+}
+
+"""A time-boxed period for tracking OKRs (e.g., Q1 2026)."""
+type OKRCycle {
+  id: ID!
+  name: String!
+  startDate: Date!
+  endDate: Date!
+  isActive: Boolean!
+  okrs: [OKR!]
+}
+
+# ─────────────────────────────────────────────
+# 1-on-1 Meetings
+# ─────────────────────────────────────────────
+
+"""A 1-on-1 meeting record between a manager and direct report."""
+type OneOnOne {
+  id: ID!
+  manager: Manager!
+  report: User!
+  scheduledAt: DateTime
+  completedAt: DateTime
+  isComplete: Boolean!
+  details: OneOnOneDetails
+  notes: [OneOnOneNote!]
+  agenda: OneOnOneAgenda
+}
+
+"""Extended details of a 1-on-1 meeting."""
+type OneOnOneDetails {
+  oneOnOneId: ID!
+  recurringFrequency: String
+  location: String
+  videoLink: String
+  createdAt: DateTime!
+  modifiedAt: DateTime
+}
+
+"""A note attached to a 1-on-1 meeting."""
+type OneOnOneNote {
+  id: ID!
+  oneOnOne: OneOnOne!
+  author: User!
+  content: String!
+  isPrivate: Boolean!
+  createdAt: DateTime!
+  modifiedAt: DateTime
+}
+
+"""The structured agenda for a 1-on-1 meeting."""
+type OneOnOneAgenda {
+  id: ID!
+  oneOnOne: OneOnOne!
+  items: [AgendaItem!]
+  createdAt: DateTime!
+  modifiedAt: DateTime
+}
+
+"""An individual item on a 1-on-1 meeting agenda."""
+type AgendaItem {
+  id: ID!
+  agenda: OneOnOneAgenda!
+  title: String!
+  description: String
+  status: AgendaItemStatus!
+  addedBy: User!
+  sortOrder: Int!
+  createdAt: DateTime!
+}
+
+"""Status of an agenda item within a 1-on-1 meeting."""
+type AgendaItemStatus {
+  id: ID!
+  agendaItem: AgendaItem!
+  value: AgendaItemStatusValue!
+  updatedAt: DateTime!
+}
+
+# ─────────────────────────────────────────────
+# Reviews
+# ─────────────────────────────────────────────
+
+"""A performance review record for a user."""
+type Review {
+  id: ID!
+  reviewee: User!
+  reviewer: User!
+  cycle: ReviewCycle!
+  type: ReviewType!
+  isComplete: Boolean!
+  submittedAt: DateTime
+  details: ReviewDetails
+  questions: [ReviewQuestion!]
+  responses: [ReviewResponse!]
+  ratings: [Rating!]
+}
+
+"""Extended content of a performance review."""
+type ReviewDetails {
+  reviewId: ID!
+  overallRating: Float
+  summary: String
+  strengths: String
+  developmentAreas: String
+  createdAt: DateTime!
+  modifiedAt: DateTime
+}
+
+"""Classification of a review (self, peer, manager, upward)."""
+type ReviewType {
+  id: ID!
+  value: ReviewTypeValue!
+  label: String!
+  description: String
+}
+
+"""A time-boxed review cycle period."""
+type ReviewCycle {
+  id: ID!
+  name: String!
+  startDate: Date!
+  endDate: Date!
+  isActive: Boolean!
+  reviews: [Review!]
+  questions: [ReviewQuestion!]
+}
+
+"""A question included in a review cycle."""
+type ReviewQuestion {
+  id: ID!
+  cycle: ReviewCycle!
+  questionText: String!
+  questionType: String!
+  isRequired: Boolean!
+  sortOrder: Int!
+}
+
+"""A response to a specific review question."""
+type ReviewResponse {
+  id: ID!
+  review: Review!
+  question: ReviewQuestion!
+  answerText: String
+  answerNumeric: Float
+  createdAt: DateTime!
+}
+
+# ─────────────────────────────────────────────
+# Ratings
+# ─────────────────────────────────────────────
+
+"""A rating assigned during a review, check-in response, or pulse."""
+type Rating {
+  id: ID!
+  value: Float!
+  maxValue: Float!
+  label: String
+  ratedBy: User!
+  ratedAt: DateTime!
+  details: RatingDetails
+}
+
+"""Extended details of a rating including scale and context."""
+type RatingDetails {
+  ratingId: ID!
+  scale: String
+  description: String
+  category: String
+  isNormalized: Boolean!
+}
+
+# ─────────────────────────────────────────────
+# Surveys and Engagement
+# ─────────────────────────────────────────────
+
+"""A survey distributed to a set of users."""
+type Survey {
+  id: ID!
+  title: String!
+  description: String
+  createdBy: User!
+  audience: [User!]
+  isActive: Boolean!
+  details: SurveyDetails
+  questions: [SurveyQuestion!]
+  responses: [SurveyResponse!]
+  createdAt: DateTime!
+}
+
+"""Extended content of a survey."""
+type SurveyDetails {
+  surveyId: ID!
+  startDate: Date
+  endDate: Date
+  responseCount: Int!
+  completionRate: Float
+  isAnonymous: Boolean!
+}
+
+"""A question within a survey."""
+type SurveyQuestion {
+  id: ID!
+  survey: Survey!
+  questionText: String!
+  questionType: String!
+  options: [String!]
+  isRequired: Boolean!
+  sortOrder: Int!
+}
+
+"""A user's response to a survey."""
+type SurveyResponse {
+  id: ID!
+  survey: Survey!
+  respondent: User
+  submittedAt: DateTime!
+  answers: [Response!]
+  isComplete: Boolean!
+}
+
+"""An engagement measurement record for a user or team."""
+type Engagement {
+  id: ID!
+  subject: User
+  team: Team
+  score: EngagementScore!
+  measuredAt: DateTime!
+  period: String!
+}
+
+"""A computed engagement score."""
+type EngagementScore {
+  id: ID!
+  value: Float!
+  maxValue: Float!
+  percentile: Float
+  trend: String
+  computedAt: DateTime!
+  breakdown: JSON
+}
+
+"""A pulse survey record capturing a point-in-time sentiment."""
+type Pulse {
+  id: ID!
+  user: User!
+  score: Int!
+  submittedAt: DateTime!
+  weekOf: Date!
+  details: PulseDetails
+}
+
+"""Extended details of a pulse survey submission."""
+type PulseDetails {
+  pulseId: ID!
+  comment: String
+  isAnonymous: Boolean!
+  followUpSent: Boolean!
+}
+
+# ─────────────────────────────────────────────
+# Recognition
+# ─────────────────────────────────────────────
+
+"""A recognition event given to a user by a peer or manager."""
+type Recognition {
+  id: ID!
+  giver: User!
+  receiver: User!
+  message: String!
+  badge: Badge
+  isPublic: Boolean!
+  createdAt: DateTime!
+  details: RecognitionDetails
+}
+
+"""Extended details of a recognition event."""
+type RecognitionDetails {
+  recognitionId: ID!
+  shoutout: Shoutout
+  reactions: [String!]
+  viewCount: Int!
+  companyValues: [String!]
+}
+
+"""A badge that can be awarded as part of a recognition."""
+type Badge {
+  id: ID!
+  name: String!
+  description: String
+  imageUrl: String
+  isActive: Boolean!
+  details: BadgeDetails
+}
+
+"""Extended details of a badge including award statistics."""
+type BadgeDetails {
+  badgeId: ID!
+  timesAwarded: Int!
+  createdAt: DateTime!
+  createdBy: User
+  category: String
+}
+
+"""A public shoutout given to a user visible across the organization."""
+type Shoutout {
+  id: ID!
+  author: User!
+  recipients: [User!]!
+  message: String!
+  badge: Badge
+  isPublic: Boolean!
+  createdAt: DateTime!
+  details: ShoutoutDetails
+}
+
+"""Extended details of a shoutout post."""
+type ShoutoutDetails {
+  shoutoutId: ID!
+  reactions: [String!]
+  commentCount: Int!
+  viewCount: Int!
+  companyValues: [String!]
+}
+
+# ─────────────────────────────────────────────
+# Webhooks
+# ─────────────────────────────────────────────
+
+"""A registered webhook endpoint that receives 15Five event notifications."""
+type Webhook {
+  id: ID!
+  url: String!
+  isActive: Boolean!
+  secret: String
+  events: [WebhookEventType!]!
+  createdAt: DateTime!
+  modifiedAt: DateTime
+  createdBy: User
+}
+
+"""An event payload delivered to a registered webhook endpoint."""
+type WebhookEvent {
+  id: ID!
+  webhook: Webhook!
+  eventType: WebhookEventType!
+  payload: JSON!
+  deliveredAt: DateTime
+  statusCode: Int
+  isSuccess: Boolean!
+  retryCount: Int!
+}
+
+# ─────────────────────────────────────────────
+# Pagination
+# ─────────────────────────────────────────────
+
+"""Pagination metadata for list responses."""
+type PageInfo {
+  totalCount: Int!
+  pageSize: Int!
+  currentPage: Int!
+  totalPages: Int!
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type UserConnection {
+  nodes: [User!]!
+  pageInfo: PageInfo!
+}
+
+type CheckInConnection {
+  nodes: [CheckIn!]!
+  pageInfo: PageInfo!
+}
+
+type GoalConnection {
+  nodes: [Goal!]!
+  pageInfo: PageInfo!
+}
+
+type OKRConnection {
+  nodes: [OKR!]!
+  pageInfo: PageInfo!
+}
+
+type ReviewConnection {
+  nodes: [Review!]!
+  pageInfo: PageInfo!
+}
+
+# ─────────────────────────────────────────────
+# Root Types
+# ─────────────────────────────────────────────
+
+type Query {
+  user(id: ID!): User
+  users(page: Int, pageSize: Int, isActive: Boolean): UserConnection!
+
+  team(id: ID!): Team
+  teams(page: Int, pageSize: Int): [Team!]!
+
+  group(id: ID!): Group
+  groups(page: Int, pageSize: Int): [Group!]!
+
+  checkIn(id: ID!): CheckIn
+  checkIns(userId: ID, page: Int, pageSize: Int): CheckInConnection!
+
+  goal(id: ID!): Goal
+  goals(userId: ID, teamId: ID, status: GoalStatusValue, page: Int, pageSize: Int): GoalConnection!
+
+  okr(id: ID!): OKR
+  okrs(userId: ID, cycleId: ID, page: Int, pageSize: Int): OKRConnection!
+
+  okrCycle(id: ID!): OKRCycle
+  okrCycles(isActive: Boolean): [OKRCycle!]!
+
+  oneOnOne(id: ID!): OneOnOne
+  oneOnOnes(managerId: ID, reportId: ID, page: Int, pageSize: Int): [OneOnOne!]!
+
+  review(id: ID!): Review
+  reviews(revieweeId: ID, cycleId: ID, page: Int, pageSize: Int): ReviewConnection!
+
+  reviewCycle(id: ID!): ReviewCycle
+  reviewCycles(isActive: Boolean): [ReviewCycle!]!
+
+  survey(id: ID!): Survey
+  surveys(isActive: Boolean, page: Int, pageSize: Int): [Survey!]!
+
+  pulse(id: ID!): Pulse
+  pulses(userId: ID, page: Int, pageSize: Int): [Pulse!]!
+
+  recognition(id: ID!): Recognition
+  recognitions(userId: ID, page: Int, pageSize: Int): [Recognition!]!
+
+  shoutout(id: ID!): Shoutout
+  shoutouts(page: Int, pageSize: Int): [Shoutout!]!
+
+  badge(id: ID!): Badge
+  badges: [Badge!]!
+
+  webhook(id: ID!): Webhook
+  webhooks: [Webhook!]!
+
+  webhookEvent(id: ID!): WebhookEvent
+  webhookEvents(webhookId: ID!, page: Int, pageSize: Int): [WebhookEvent!]!
+}
+
+type Mutation {
+  createUser(email: String!, firstName: String!, lastName: String!): User!
+  updateUser(id: ID!, firstName: String, lastName: String, isActive: Boolean): User!
+  deactivateUser(id: ID!): User!
+
+  createGroup(name: String!, description: String): Group!
+  updateGroup(id: ID!, name: String, description: String): Group!
+  addUserToGroup(groupId: ID!, userId: ID!): Group!
+  removeUserFromGroup(groupId: ID!, userId: ID!): Group!
+
+  createGoal(title: String!, description: String, ownerId: ID!, teamId: ID, dueDate: Date): Goal!
+  updateGoal(id: ID!, title: String, description: String, status: GoalStatusValue, dueDate: Date): Goal!
+  updateGoalProgress(goalId: ID!, percentComplete: Float!, note: String): GoalProgress!
+
+  createOKR(title: String!, description: String, ownerId: ID!, cycleId: ID!): OKR!
+  updateOKR(id: ID!, title: String, description: String): OKR!
+  createKeyResult(okrId: ID!, title: String!, targetValue: Float, unit: String): KeyResult!
+  updateKeyResult(id: ID!, currentValue: Float, title: String): KeyResult!
+
+  createWebhook(url: String!, events: [WebhookEventType!]!, secret: String): Webhook!
+  updateWebhook(id: ID!, url: String, isActive: Boolean, events: [WebhookEventType!]): Webhook!
+  deleteWebhook(id: ID!): Boolean!
+
+  createRecognition(receiverId: ID!, message: String!, badgeId: ID, isPublic: Boolean): Recognition!
+  createShoutout(recipientIds: [ID!]!, message: String!, badgeId: ID, isPublic: Boolean): Shoutout!
+}
