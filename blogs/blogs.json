@@ -1,21 +1,13 @@
 {
-  "name": "15Five Blog",
-  "description": "Official blog for 15Five covering performance management, employee engagement, OKRs, and HR leadership.",
-  "url": "https://www.15five.com/blog/",
-  "rss": null,
-  "note": "No RSS/Atom feed URL confirmed accessible as of 2026-06-12. Common feed paths (/feed, /blog/feed) return 404.",
-  "lastChecked": "2026-06-12",
-  "posts": [],
   "repo": "15five",
   "feeds": [
     {
-      "source": "https://x.com/15Five",
-      "feed_url": "https://x.com/15Five",
-      "title": "",
-      "saved": 0,
-      "method": "none"
+      "source": "https://www.15five.com/blog",
+      "feed_url": "https://www.15five.com/blog/rss.xml",
+      "title": "15Five Blog",
+      "saved": 2
     }
   ],
-  "post_count": 0,
-  "fetched": "2026-06-14T20:42:17Z"
+  "fetched": "2026-06-21T17:00:00Z",
+  "post_count": 2
 }
