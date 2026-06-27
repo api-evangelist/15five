@@ -2,12 +2,20 @@
   "repo": "15five",
   "feeds": [
     {
-      "source": "https://www.15five.com/blog",
+      "source": "https://www.15five.com/blog/rss.xml",
       "feed_url": "https://www.15five.com/blog/rss.xml",
-      "title": "15Five Blog",
-      "saved": 2
+      "title": "",
+      "saved": 1,
+      "method": "feed"
+    },
+    {
+      "source": "https://x.com/15Five",
+      "feed_url": "https://x.com/15Five",
+      "title": "",
+      "saved": 0,
+      "method": "none"
     }
   ],
-  "fetched": "2026-06-21T17:00:00Z",
-  "post_count": 2
+  "fetched": "2026-06-27T12:03:07Z",
+  "post_count": 3
 }
