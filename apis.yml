@@ -51,6 +51,10 @@ apis:
   - url: graphql/15five-graphql.md
     type: GraphQL
 common:
+- type: TrustCenter
+  url: security/15five-trust-center.yml
+- type: DomainSecurity
+  url: security/15five-domain-security.yml
 - type: Website
   url: https://www.15five.com/
 - type: Documentation
