@@ -52,6 +52,13 @@ apis:
   - Performance Management
   - OKRs
   - Check-ins
+  - User
+  - Group
+  - Reviews
+  tags_raw:
+  - Performance Management
+  - OKRs
+  - Check-ins
   - Users
   - Groups
   - Reviews
