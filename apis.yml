@@ -43,6 +43,14 @@ tags:
 - Performance Management
 - Employee Engagement
 - OKRs
+- Check-in
+- Human Resources
+- 1-on-1 Meetings
+- Pulse Surveys
+tags_raw:
+- Performance Management
+- Employee Engagement
+- OKRs
 - Check-ins
 - HR
 - Human Resources
@@ -62,7 +70,7 @@ apis:
   tags:
   - Performance Management
   - OKRs
-  - Check-ins
+  - Check-in
   - User
   - Group
   - Reviews
