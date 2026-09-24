@@ -86,8 +86,6 @@ apis:
     url: https://my.15five.com/api/public/
   - type: HelpArticle
     url: https://success.15five.com/hc/en-us/articles/50988142563483-15Five-Public-API-Supported-Features-Limits-and-Access-Rules
-  - url: graphql/15five-graphql.md
-    type: GraphQL
 common:
 - type: TrustCenter
   url: security/15five-trust-center.yml
