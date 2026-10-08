@@ -154,3 +154,27 @@ addons:
       currency: USD
       per: user/month
       billingCycle: annual
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models: []
+  units: []
+  plans:
+  - name: Engage
+    access: paid
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Perform
+    access: paid
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Total Platform
+    access: paid
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
