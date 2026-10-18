@@ -92,7 +92,7 @@
     - connectors/applications/15five
     vendor_link: https://www.15five.com
     builder: Fivetran
-  status: pending-partner-spec
+  status: not-a-workflow
   arazzo: null
 - slug: 15five-microsoft-teams-own
   label: Microsoft Teams (own)
